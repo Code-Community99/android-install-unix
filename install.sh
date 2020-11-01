@@ -6,11 +6,11 @@ export PS3
 URI="https://r2---sn-n545gpjvh-hc5e.gvt1.com/edgedl/android/studio/ide-zips/4.1.0.19/android-studio-ide-201.6858069-linux.tar.gz?cms_redirect=yes&mh=gy&mip=196.97.7.223&mm=28&mn=sn-n545gpjvh-hc5e&ms=nvh&mt=1604213352&mv=m&mvi=2&pl=13&shardbypass=yes"
 PCODE=""
 if [[ $UID -eq 0 ]]; then
-	INSTALL_DIR="/root/INSTALL_DIR"
+	INSTALL_DIR="/root/.INSTALL_DIR"
 else
 	echo -en "\E[1;31m Enter sudo password: \E[m";
 	read PCODE
-	INSTALL_DIR="/home/$USER/INSTALL_DIR/"
+	INSTALL_DIR="/home/$USER/.INSTALL_DIR/"
 fi
 set -o errexit
 g_info="$USER"
@@ -51,20 +51,23 @@ webInstall
 	return 0
 }
 function local_install(){
-	echo -e "\E[1;35m Extracting files. Hangon ... 🤗🤗🤗 \E[m"
-	tar -xvf ./*tar.gz
-
-	if [[  $(which ln) ]]; then
-		echo "Setting up the studio .... "
-		echo $(ls $(ln -sf $(pwd)/android-studio/bin/studio.sh))
-		ln -s $(pwd)/android-studio/bin/studio.sh /usr/local/bin/studio && rm -rf $INSTALL_DIR
-		stats_code=$?
-		if [ $? -eq 0 ];then
-			 echo -e "\033[1;34m All done, whenever you want to start android just type the name studio on your terminal.Good byes.\E[m"
-		 else
-			 echo -e "\E[1;31m An error occured ... Exiting with status code $stats_code"
-	fi
-	exit $stats_code
+	if [[ $(echo $(ls)|wc -l ) -ne 0 ]]; then
+		echo -e "\E[1;35m Extracting files. Hangon ... 🤗🤗🤗 \E[m"
+		tar -xvf ./*tar.gz
+		if [[  $(which ln) ]]; then
+			echo -e "\E[1;31m Setting up android studio .... \E[m"
+			ln -s $(pwd)/android-studio/bin/studio.sh /usr/local/bin/android
+			stats_code=$?
+			if [ $? -eq 0 ];then
+				 echo -e "\033[1;34m All done, whenever you want to start android just type android on your terminal.Good byes.\E[m"
+			 else
+				 echo -e "\E[1;31m An error occured ... Exiting with status code $stats_code"
+		fi
+		exit $stats_code
+		fi
+	else
+		echo -e "\E[1;31m No tar file inside $INSTALL_DIR . Exiting ... \E[m"
+		exit $?
 	fi
 }
 function base(){
@@ -74,7 +77,7 @@ function base(){
 			"Download-Install")
 				webInstall
 				;;
-		"Install-Downlaoded")
+		"Install-Downloaded")
 			local_install
 			;;
 		"exit")
