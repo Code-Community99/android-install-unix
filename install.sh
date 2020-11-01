@@ -13,7 +13,7 @@ fi
 set -o errexit
 net_notif=""
 function net_manager() {
-	ping google.com c -3;
+	ping google.com -c -3;
 	if [[ $? -ne 0 ]]; then
 		echo -e $net_notif
 		net_manager
