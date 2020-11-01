@@ -13,6 +13,7 @@ else
 	INSTALL_DIR="/home/$USER/INSTALL_DIR/"
 fi
 set -o errexit
+g_info="$USER"
 net_notif=""
 Banner="\E[1;34m
         8***        8        *     *   Author - Codem
@@ -22,10 +23,15 @@ Banner="\E[1;34m
 \E[m"
 
 printf "$Banner"
+echo -e "\E[1;34m Hello $g_info, am gonna take you through the installation of the android studio sdk.\E[m"
 function net_manager() {
 	ping google.com -c -3;
 	if [[ $? -ne 0 ]]; then
-		echo -e $net_notif
+		if [[ ${#net_notif} -ne 0 ]]; then
+			echo "";
+		else
+			echo -e $"net_notif";
+		fi
 		net_manager
 	fi
 }
