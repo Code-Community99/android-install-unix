@@ -1,4 +1,4 @@
-# android-install-unix
+# Android-Install-Unix
 Android studio Installation script for linux OS
 
 *** Instructions ***
