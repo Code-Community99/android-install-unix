@@ -12,7 +12,7 @@ else
 	read PCODE
 	INSTALL_DIR="/home/$USER/.INSTALL_DIR/"
 fi
-set -o errexit
+# set -o errexit
 g_info="$USER"
 net_notif=""
 Banner="\E[1;34m
@@ -25,17 +25,29 @@ Banner="\E[1;34m
 printf "$Banner"
 echo -e "\E[1;34m Hello $g_info, am gonna take you through the installation of the android studio sdk.\E[m"
 function net_manager() {
-	ping google.com -c 3;
-	if [[ $? -ne 0 ]]; then
-		if [[ ${#net_notif} -ne 0 ]]; then
-			echo "";
-		else
-			echo -e $"net_notif";
-		fi
-		net_manager
-	fi
+  local NET_MON
+  echo -e "\033[1;33m Checking internet connection ...  👀 \033[m"
+  ping google.com -c 3 > /dev/null 2>&1
+  if [ $? -ne 0 ]; then
+    NET_MON=1
+    sleep 2;
+    echo -en "\E[1;31m You are offline 😖 PS:(\E[m\n \E[1;33m Waiting for internet connection to come back ... 🤢🤢 \E[m";
+  fi
+  ping google.com -c 1 > /dev/null 2>&1
+  while [[ $? -ne 0 ]]; do
+    NET_MON=1
+    ping google.com -c 1 > /dev/null 2>&1 ;
+  done
+  if [[ $? -eq 0 ]]; then
+      NET_MON=0
+  fi
+  if [ $NET_MON -eq 0 ] ; then
+    echo -e "\E[5;35m \E[1m you are Online PS 👍 :)\E[m \E[m";
+  fi
 }
+
 function webInstall() {
+	net_manager
 	if [ $(which wget) ];then
 		echo -e "\E[1;34m Downloading .... Get a cup of coffee and wait for the download to finish ... 🤓🤓\E[m"
 			sudo wget $URI<<EOF
