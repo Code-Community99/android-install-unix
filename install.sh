@@ -12,7 +12,7 @@ else
 	read PCODE
 	INSTALL_DIR="/home/$USER/.INSTALL_DIR/"
 fi
-set -o errexit
+# set -o errexit
 g_info="$USER"
 net_notif=""
 Banner="\E[1;34m
