@@ -36,7 +36,7 @@ webInstall
 }
 function local_install(){
 	echo -e "\E[1;35m Extracting files. Hangon ... 🤗🤗🤗 \E[m"
-	tar -xvf ./*.gz
+	tar -xvf ./*tar.gz
 
 	if [[  $(which ln) ]]; then
 		echo "Setting up the studio .... "
