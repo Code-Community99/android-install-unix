@@ -25,7 +25,7 @@ Banner="\E[1;34m
 printf "$Banner"
 echo -e "\E[1;34m Hello $g_info, am gonna take you through the installation of the android studio sdk.\E[m"
 function net_manager() {
-	ping google.com -c -3;
+	ping google.com -c 3;
 	if [[ $? -ne 0 ]]; then
 		if [[ ${#net_notif} -ne 0 ]]; then
 			echo "";
