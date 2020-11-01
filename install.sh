@@ -1,6 +1,8 @@
 #!/usr/bin/bash
 declare -a DEPENDANCIES=("ln cm");
-declare -a OPTIONS=("Download-Install Install-Downlaoded exit");
+declare -a OPTIONS=("Download-Install Install-Downloaded exit");
+PS3="$USER's Option> "
+export PS3
 URI="https://r2---sn-n545gpjvh-hc5e.gvt1.com/edgedl/android/studio/ide-zips/4.1.0.19/android-studio-ide-201.6858069-linux.tar.gz?cms_redirect=yes&mh=gy&mip=196.97.7.223&mm=28&mn=sn-n545gpjvh-hc5e&ms=nvh&mt=1604213352&mv=m&mvi=2&pl=13&shardbypass=yes"
 PCODE=""
 if [[ $UID -eq 0 ]]; then
@@ -12,6 +14,14 @@ else
 fi
 set -o errexit
 net_notif=""
+Banner="\E[1;34m
+        8***        8        *     *   Author - Codem
+        8   *     8___8      *  *  *
+        8__ *     8   8      *     *
+
+\E[m"
+
+printf "$Banner"
 function net_manager() {
 	ping google.com -c -3;
 	if [[ $? -ne 0 ]]; then
@@ -53,7 +63,6 @@ function local_install(){
 }
 function base(){
 	cd "$INSTALL_DIR"
-	echo $(pwd)
 	select opt in $OPTIONS;do
 		case $opt in
 			"Download-Install")
